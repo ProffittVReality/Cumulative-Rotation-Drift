@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cumulative-Rotation-Drift", "Cumulative-Rotation-Drift.csproj", "{962D0269-7565-624A-5F32-D20901277BE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cumulative-Rotation-Drift.Editor", "Cumulative-Rotation-Drift.Editor.csproj", "{3B41739C-83F9-591B-C005-2095A04D7C27}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{962D0269-7565-624A-5F32-D20901277BE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{962D0269-7565-624A-5F32-D20901277BE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{962D0269-7565-624A-5F32-D20901277BE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{962D0269-7565-624A-5F32-D20901277BE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B41739C-83F9-591B-C005-2095A04D7C27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B41739C-83F9-591B-C005-2095A04D7C27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B41739C-83F9-591B-C005-2095A04D7C27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B41739C-83F9-591B-C005-2095A04D7C27}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
