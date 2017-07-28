@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 public class questionnaireHandler : MonoBehaviour
 {
 
-    GameObject cameraObject;
+    public GameObject cameraObject;
     videoAndRotationHandler rotationHandler;
 
     public GameObject questionnaire;
@@ -141,7 +141,7 @@ public class questionnaireHandler : MonoBehaviour
         rotationSpeed = rotationHandler.rotationSpeed;
         movieLength = rotationHandler.movieLength;
         //rotAndLength = rotationHandler.speedLength.text;
-        rotOffset = rotationHandler.rotationOffset;
+        rotOffset = rotationHandler.deltaDistance;
 
 
         val1.text = num1.ToString();

@@ -25,7 +25,7 @@ public class videoAndRotationHandler : MonoBehaviour
 
 
     public bool startRotate = true;
-    bool turnLeft;
+    public bool turnLeft;
     //public float rotateSpeed;
     private int listSize = 3;
     public Text videoSet;
@@ -56,6 +56,18 @@ public class videoAndRotationHandler : MonoBehaviour
     public GameObject rightLaser;
     public GameObject leftLaser;
 
+    public GameObject cameraEye;
+
+
+    public float previousDistance;
+    public float currentDistance;
+    public float deltaDistance;
+    public float maxDistance;
+    public float endDistance;
+    public float temp;
+
+    public int countRotations;
+
 
 
 
@@ -65,7 +77,9 @@ public class videoAndRotationHandler : MonoBehaviour
         GameObject guiObject = GameObject.FindWithTag("GUI");
         GUI_Handler guiHandler = guiObject.GetComponent<GUI_Handler>();
         dataFileName = guiHandler.FileName;
-        
+
+        previousDistance = 0;
+
         if (dataFileName.Equals(""))
         {
             dataFileName = "default";
@@ -93,25 +107,58 @@ public class videoAndRotationHandler : MonoBehaviour
 
     void Update()
     {
+        if (previousDistance == 0)
+        {
+            previousDistance = cameraEye.transform.localEulerAngles.y;
+        }
         if (startRotate && this.gameObject.CompareTag("MainCamera") && !turnLeft)
         {
-            transform.Rotate(Vector2.up, Time.deltaTime * (float)myConditions.speed);
+            transform.Rotate(Vector2.up, Time.deltaTime * (float)myConditions.speed);          
+            currentDistance = cameraEye.transform.localEulerAngles.y;
+            if ((currentDistance - previousDistance) > 200)
+            {
+                currentDistance -= 360;
+            }
+            if (maxDistance < currentDistance) //checks if the current rotation is more than a previous
+            {
+                //maxDistance = temp;
+                deltaDistance += currentDistance - maxDistance;
+                maxDistance = currentDistance; //updates if this is true
+                //deltaDistance += maxDistance - temp;
+                if (deltaDistance >= 359.5)
+                {
+                    countRotations++;
+                    deltaDistance = 0;
+                    maxDistance = 0;
+                }
+            }
         }
         if (startRotate && this.gameObject.CompareTag("MainCamera") && turnLeft)
         {
             transform.Rotate(Vector2.down, Time.deltaTime * (float)myConditions.speed);
+            currentDistance = cameraEye.transform.localEulerAngles.y;
+            currentDistance -= 360;
+            if ((currentDistance - previousDistance) < 200 )
+            {
+                currentDistance -= 360;
+            }
+            if (maxDistance < currentDistance) //checks if the current rotation is more than a previous
+            {
+                maxDistance = currentDistance; //updates if this is true
+            }
+
         }
-        
+        previousDistance = currentDistance;
     }
 
 
-    //called after participant clicks done in their questionnaire
-    //disables the question screen, enables the image to play the video, sets a new length and speed
-    //starts rotating and plays video
-    //switches the direction of rotation
-    public void nextVideo()
+        //called after participant clicks done in their questionnaire
+        //disables the question screen, enables the image to play the video, sets a new length and speed
+        //starts rotating and plays video
+        //switches the direction of rotation
+        public void nextVideo()
     {
-
+        //previousDistance = cameraEye.transform.rotation.eulerAngles.y;
         leftLaser.SetActive(false);
         rightLaser.SetActive(false);
         leftController.SetActive(false);
@@ -127,7 +174,7 @@ public class videoAndRotationHandler : MonoBehaviour
         {
             turnLeft = true;
         }
-        
+        deltaDistance = 0;
         StartCoroutine(playVideo());
     }
 
@@ -355,21 +402,21 @@ public class videoAndRotationHandler : MonoBehaviour
         
         yield return StartCoroutine(Wait((float)videoPlayer.clip.length)); // wait till clip is done playing
 
-       
+
+        endDistance = cameraEye.transform.localEulerAngles.y;
         startRotate = false; //stop rotation
         Debug.Log("stop rotation");
         float pastOffset = rotationOffset;
         float currOffset = transform.eulerAngles.y;
-        rotationOffset = currOffset-pastOffset;
-        rotationOffset = Math.Abs(rotationOffset);
+        //rotationOffset = currOffset-pastOffset;
+        //rotationOffset = Math.Abs(rotationOffset);
+        //deltaDistance = currentDistance - previousDistance;
 
         rightLaser.SetActive(true);
         leftLaser.SetActive(true);
 
         leftController.SetActive(true);
         rightController.SetActive(true);
-
-        //rightLaserHandler.SetActive(true);
 
 
         image.enabled = false;
@@ -378,7 +425,6 @@ public class videoAndRotationHandler : MonoBehaviour
         yield return StartCoroutine(Wait(2f));
 
         //transform.eulerAngles = new Vector3(0, 0, 0); //rotate back to origin
-        //yield return StartCoroutine(Wait(15f))
         yield return StartCoroutine(Wait(5f));
         fadePanel.CrossFadeAlpha(1, 7f, false); //lighten theater
         yield return StartCoroutine(Wait(5f));
