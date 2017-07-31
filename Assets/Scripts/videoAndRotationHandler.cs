@@ -23,6 +23,12 @@ public class videoAndRotationHandler : MonoBehaviour
     private VideoSource videoSource;
     private AudioSource audioSource;
 
+    public double speed1 = 0.1;
+    public double speed2 = 0.2;
+    public double speed3 = 0.4;
+    public double speed4 = 1;
+
+
 
     public bool startRotate = true;
     public bool turnLeft;
@@ -124,13 +130,11 @@ public class videoAndRotationHandler : MonoBehaviour
                 //maxDistance = temp;
                 deltaDistance += currentDistance - maxDistance;
                 maxDistance = currentDistance; //updates if this is true
-                //deltaDistance += maxDistance - temp;
-                if (deltaDistance >= 359.5)
-                {
-                    countRotations++;
-                    deltaDistance = 0;
-                    maxDistance = 0;
-                }
+               
+            } if (maxDistance > currentDistance && maxDistance - currentDistance > 350 && deltaDistance > 300)
+            {
+                deltaDistance += (currentDistance - maxDistance) + 360;
+                maxDistance = currentDistance;
             }
         }
         if (startRotate && this.gameObject.CompareTag("MainCamera") && turnLeft)
@@ -252,10 +256,10 @@ public class videoAndRotationHandler : MonoBehaviour
     void setConditions()
     {
         //make list A of conditions 
-        Condition oneA = new Condition(0.1, 1);
-        Condition twoA = new Condition(0.2, 2);
-        Condition threeA = new Condition(0.4, 5);
-        Condition fourA = new Condition(1, 10);
+        Condition oneA = new Condition(speed1, 1);
+        Condition twoA = new Condition(speed2, 2);
+        Condition threeA = new Condition(speed3, 5);
+        Condition fourA = new Condition(speed4, 10);
         //List<Condition> conditionList = new List<Condition>();
         conditionListA.Add(oneA);
         conditionListA.Add(twoA);
@@ -263,30 +267,30 @@ public class videoAndRotationHandler : MonoBehaviour
         conditionListA.Add(fourA);
         
         //make list B of conditions
-        Condition oneB = new Condition(0.2, 1);
-        Condition twoB = new Condition(0.4, 2);
-        Condition threeB = new Condition(1, 5);
-        Condition fourB = new Condition(0.1, 10);
+        Condition oneB = new Condition(speed2, 1);
+        Condition twoB = new Condition(speed3, 2);
+        Condition threeB = new Condition(speed4, 5);
+        Condition fourB = new Condition(speed1, 10);
         conditionListB.Add(oneB);
         conditionListB.Add(twoB);
         conditionListB.Add(threeB);
         conditionListB.Add(fourB);
 
         //make list of C conditions
-        Condition oneC = new Condition(0.4, 1);
-        Condition twoC = new Condition(1, 2);
-        Condition threeC = new Condition(0.1, 5);
-        Condition fourC = new Condition(0.2, 10);
+        Condition oneC = new Condition(speed3, 1);
+        Condition twoC = new Condition(speed4, 2);
+        Condition threeC = new Condition(speed1, 5);
+        Condition fourC = new Condition(speed2, 10);
         conditionListC.Add(oneC);
         conditionListC.Add(twoC);
         conditionListC.Add(threeC);
         conditionListC.Add(fourC);
 
         //make list of D condition
-        Condition oneD = new Condition(1, 1);
-        Condition twoD = new Condition(0.1, 2);
-        Condition threeD = new Condition(0.2, 5);
-        Condition fourD = new Condition(0.4, 10);
+        Condition oneD = new Condition(speed4, 1);
+        Condition twoD = new Condition(speed1, 2);
+        Condition threeD = new Condition(speed2, 5);
+        Condition fourD = new Condition(speed3, 10);
         conditionListD.Add(oneD);
         conditionListD.Add(twoD);
         conditionListD.Add(threeD);
